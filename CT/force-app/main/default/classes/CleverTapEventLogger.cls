@@ -39,13 +39,33 @@ public with sharing class CleverTapEventLogger {
                 return;
             }
             
+            // Determine real success status based on both HTTP status and response content
+            Boolean isSuccess = false;
+            String responseBody = '';
+            
+            if (eventData.response != null) {
+                responseBody = eventData.response.getBody();
+                
+                // First check HTTP status
+                if (eventData.response.getStatusCode() == 200) {
+                    // Then check response content for API success
+                    try {
+                        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
+                        if (responseMap.containsKey('status')) {
+                            isSuccess = 'success'.equalsIgnoreCase((String)responseMap.get('status'));
+                        }
+                    } catch (Exception e) {
+                        // If can't parse JSON, default to HTTP status
+                        isSuccess = true;
+                    }
+                }
+            }
+            
             // Create fields map dynamically
             Map<String, Object> fieldsMap = new Map<String, Object>{
-                'Status__c' => (eventData.response != null && eventData.response.getStatusCode() == 200) 
-                    ? 'Success' 
-                    : 'Failed',
-                'Response__c' => eventData.response != null 
-                    ? eventData.response.getBody() + '\nRequest: ' + eventData.requestBody 
+                'Status__c' => isSuccess ? 'Success' : 'Failed',
+                'Response__c' => responseBody != '' 
+                    ? responseBody + '\nRequest: ' + eventData.requestBody 
                     : eventData.requestBody
             };
             

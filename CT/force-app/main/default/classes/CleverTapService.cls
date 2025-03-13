@@ -180,9 +180,11 @@ public with sharing class CleverTapService {
      * @param e The exception
      */
     private static void logErrorEvent(Id recordId, String recordType, Exception e) {
+        
         CleverTapEventLogger.EventData eventData = new CleverTapEventLogger.EventData(
             recordId, recordType, null, 'Error: ' + e.getMessage()
         );
         CleverTapEventLogger.logEvent(eventData);
     }
+
 }
