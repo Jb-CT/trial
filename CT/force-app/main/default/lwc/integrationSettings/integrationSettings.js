@@ -43,8 +43,8 @@ export default class IntegrationSettings extends NavigationMixin(LightningElemen
             console.log('Fetched configurations:', data);
             this.connections = data.map(conn => ({
                 id: conn.Id,
-                developerName: conn.DeveloperName,
-                name: conn.MasterLabel,
+                developerName: conn.Name, // Use Name instead of DeveloperName
+                name: conn.Name,
                 region: conn.Region__c,
                 accountId: conn.CleverTap_Account_ID__c,
                 passcode: conn.CleverTap_Passcode__c
@@ -54,6 +54,7 @@ export default class IntegrationSettings extends NavigationMixin(LightningElemen
             this.showToast('Error', 'Failed to fetch configurations', 'error');
         }
     }
+    
 
     get modalTitle() {
         return this.isEditing ? 'Edit Connection' : 'New Connection';
@@ -119,9 +120,7 @@ export default class IntegrationSettings extends NavigationMixin(LightningElemen
         const id = event.currentTarget.dataset.id;
         const name = event.currentTarget.dataset.name;
         
-        const conn = this.connections.find(c => c.id === id);
-        
-        if (!conn || !conn.developerName) {
+        if (!id) {
             this.showToast('Error', 'Configuration identifier not found', 'error');
             return;
         }
@@ -131,16 +130,11 @@ export default class IntegrationSettings extends NavigationMixin(LightningElemen
                 this.isLoading = true;
                 this.showToast('Info', 'Starting deletion process...', 'info');
                 
-                const result = await deleteConfiguration({ developerName: conn.developerName });
+                const result = await deleteConfiguration({ configId: id });
                 
                 if (result === 'Success') {
-                    this.showToast('Info', 'Deletion initiated successfully', 'info');
-                    
-                    // Refresh after a delay to allow metadata deployment to complete
-                    await this.refreshAfterDelay(5000);
-                    await this.refreshAfterDelay(5000);
-                    
                     this.showToast('Success', 'Configuration deleted successfully', 'success');
+                    await refreshApex(this.wiredConfigResult);
                 } else {
                     throw new Error('Failed to process deletion');
                 }

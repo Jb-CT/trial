@@ -1,25 +1,17 @@
-/**
- * @class CleverTapConfig
- * @description Provides configuration settings for the CleverTap integration by retrieving API credentials from custom metadata.
- */
 public with sharing class CleverTapConfig {
     
-    /**
-     * @description Gets the CleverTap credentials.
-     * @return Map<String, String> containing all necessary credentials.
-     */
     public static Map<String, String> getCredentials() {
-        // Ensure the user has read access to CleverTap_Config__mdt
-        if (!Schema.sObjectType.CleverTap_Config__mdt.isAccessible()) {
+        // Ensure the user has read access to CleverTap_Config__c
+        if (!Schema.sObjectType.CleverTap_Config__c.isAccessible()) {
             return null;
         }
 
-        List<CleverTap_Config__mdt> configList = [
-            SELECT DeveloperName, MasterLabel, CleverTap_API_URL__c, 
+        List<CleverTap_Config__c> configList = [
+            SELECT Name, CleverTap_API_URL__c, 
                    CleverTap_Account_ID__c, CleverTap_Passcode__c,
                    Region__c
-            FROM CleverTap_Config__mdt 
-            WHERE MasterLabel != '[Deleted]'
+            FROM CleverTap_Config__c 
+            WHERE Name != '[Deleted]'
             LIMIT 1
         ];
 
@@ -27,12 +19,11 @@ public with sharing class CleverTapConfig {
             return null;
         }
 
-        //need to improve this as its only getting the id and password of the first row
-        CleverTap_Config__mdt config = configList[0];
+        CleverTap_Config__c config = configList[0];
 
         Map<String, String> credentials = new Map<String, String>{
-            'NAME'       => config.MasterLabel,
-            'DEV_NAME'   => config.DeveloperName,
+            'NAME'       => config.Name,
+            'DEV_NAME'   => config.Name, // Custom objects don't have DeveloperName
             'API_URL'    => config.CleverTap_API_URL__c,
             'ACCOUNT_ID' => config.CleverTap_Account_ID__c,
             'PASSCODE'   => config.CleverTap_Passcode__c,
