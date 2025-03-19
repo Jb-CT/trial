@@ -105,7 +105,7 @@ public with sharing class CleverTapService {
         List<CleverTap_Sync_Configuration__c> syncConfigs = [
             SELECT Id FROM CleverTap_Sync_Configuration__c 
             WHERE Salesforce_Entity__c = :recordType 
-            AND Status__c = 'Active' 
+            AND Test2Clevertap__Status__c = 'Active' 
             LIMIT 1
         ];
         return !syncConfigs.isEmpty();

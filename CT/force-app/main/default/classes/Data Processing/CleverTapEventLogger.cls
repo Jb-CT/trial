@@ -63,8 +63,8 @@ public with sharing class CleverTapEventLogger {
             
             // Create fields map dynamically
             Map<String, Object> fieldsMap = new Map<String, Object>{
-                'Status__c' => isSuccess ? 'Success' : 'Failed',
-                'Response__c' => responseBody != '' 
+                'Test2Clevertap__Status__c' => isSuccess ? 'Success' : 'Failed',
+                'Test2Clevertap__Response__c' => responseBody != '' 
                     ? responseBody + '\nRequest: ' + eventData.requestBody 
                     : eventData.requestBody
             };
@@ -76,7 +76,7 @@ public with sharing class CleverTapEventLogger {
                 fieldsMap.put(fieldName, eventData.recordId);
             } else {
                 // Fallback - store record ID in description
-                fieldsMap.put('Response__c', eventData.recordType + ' ID: ' + eventData.recordId + '\n' + fieldsMap.get('Response__c'));
+                fieldsMap.put('Test2Clevertap__Response__c', eventData.recordType + ' ID: ' + eventData.recordId + '\n' + fieldsMap.get('Test2Clevertap__Response__c'));
             }
             
             // Create the record using the dynamic fields map

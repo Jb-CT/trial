@@ -4,18 +4,18 @@ private class IntegrationConfigControllerTest {
     @isTest
     static void testGetConfigurations() {
         // Create test data
-        CleverTap_Config__c testConfig = new CleverTap_Config__c(
+        Test2Clevertap__CleverTap_Config__c testConfig = new Test2Clevertap__CleverTap_Config__c(
             Name = 'Test Config',
-            Region__c = 'US',
-            CleverTap_Account_ID__c = 'test-account-id',
-            CleverTap_Passcode__c = 'test-passcode',
-            CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
+            Test2Clevertap__Region__c = 'US',
+            Test2Clevertap__CleverTap_Account_ID__c = 'test-account-id',
+            Test2Clevertap__CleverTap_Passcode__c = 'test-passcode',
+            Test2Clevertap__CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
         );
         insert testConfig;
         
         // Test
         Test.startTest();
-        List<CleverTap_Config__c> configs = IntegrationConfigController.getConfigurations();
+        List<Test2Clevertap__CleverTap_Config__c> configs = IntegrationConfigController.getConfigurations();
         Test.stopTest();
         
         // Verify
@@ -40,19 +40,19 @@ private class IntegrationConfigControllerTest {
         
         // Verify
         System.assertEquals('Success', result, 'Save operation should return Success');
-        List<CleverTap_Config__c> savedConfigs = [SELECT Id FROM CleverTap_Config__c WHERE Name = 'Test Connection'];
+        List<Test2Clevertap__CleverTap_Config__c> savedConfigs = [SELECT Id FROM Test2Clevertap__CleverTap_Config__c WHERE Name = 'Test Connection'];
         System.assertEquals(1, savedConfigs.size(), 'One record should be created');
     }
     
     @isTest
     static void testUpdateConfiguration() {
         // Setup
-        CleverTap_Config__c testConfig = new CleverTap_Config__c(
+        Test2Clevertap__CleverTap_Config__c testConfig = new Test2Clevertap__CleverTap_Config__c(
             Name = 'Test Config',
-            Region__c = 'US',
-            CleverTap_Account_ID__c = 'test-account-id',
-            CleverTap_Passcode__c = 'test-passcode',
-            CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
+            Test2Clevertap__Region__c = 'US',
+            Test2Clevertap__CleverTap_Account_ID__c = 'test-account-id',
+            Test2Clevertap__CleverTap_Passcode__c = 'test-passcode',
+            Test2Clevertap__CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
         );
         insert testConfig;
         
@@ -71,20 +71,20 @@ private class IntegrationConfigControllerTest {
         
         // Verify
         System.assertEquals('Success', result, 'Update operation should return Success');
-        CleverTap_Config__c updated = [SELECT Name, Region__c FROM CleverTap_Config__c WHERE Id = :testConfig.Id];
+        Test2Clevertap__CleverTap_Config__c updated = [SELECT Name, Test2Clevertap__Region__c FROM Test2Clevertap__CleverTap_Config__c WHERE Id = :testConfig.Id];
         System.assertEquals('Updated Config', updated.Name, 'Name should be updated');
-        System.assertEquals('EU', updated.Region__c, 'Region should be updated');
+        System.assertEquals('EU', updated.Test2Clevertap__Region__c, 'Region should be updated');
     }
     
     // @isTest
     // static void testDeleteConfiguration() {
     //     // Setup
-    //     CleverTap_Config__c testConfig = new CleverTap_Config__c(
+    //     Test2Clevertap__CleverTap_Config__c testConfig = new Test2Clevertap__CleverTap_Config__c(
     //         Name = 'Test Config',
-    //         Region__c = 'US',
-    //         CleverTap_Account_ID__c = 'test-account-id',
-    //         CleverTap_Passcode__c = 'test-passcode',
-    //         CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
+    //         Test2Clevertap__Region__c = 'US',
+    //         Test2Clevertap__CleverTap_Account_ID__c = 'test-account-id',
+    //         Test2Clevertap__CleverTap_Passcode__c = 'test-passcode',
+    //         Test2Clevertap__CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
     //     );
     //     insert testConfig;
         
@@ -104,7 +104,7 @@ private class IntegrationConfigControllerTest {
     //     Test.stopTest();
         
     //     // Verify the operation worked by checking if the name was updated
-    //     CleverTap_Config__c updatedConfig = [SELECT Name FROM CleverTap_Config__c WHERE Id = :testConfig.Id];
+    //     Test2Clevertap__CleverTap_Config__c updatedConfig = [SELECT Name FROM Test2Clevertap__CleverTap_Config__c WHERE Id = :testConfig.Id];
         
     //     // The critical test is whether the name was updated, regardless of the exception
     //     Boolean nameWasUpdated = updatedConfig.Name.startsWith('[DELETED]');

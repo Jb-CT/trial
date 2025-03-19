@@ -58,7 +58,7 @@ public with sharing class CleverTapDataMapper {
             WHERE Sync_Configuration__c IN (
                 SELECT Id FROM CleverTap_Sync_Configuration__c 
                 WHERE Salesforce_Entity__c = :recordType 
-                AND Status__c = 'Active'
+                AND Test2Clevertap__Status__c = 'Active'
             )
         ];
     }

@@ -50,7 +50,7 @@ public with sharing class SyncConfigurationManager {
             this.syncType = config.Sync_Type__c;
             this.sourceEntity = config.Salesforce_Entity__c;
             this.targetEntity = config.CleverTap_Entity__c;
-            this.status = config.Status__c;
+            this.status = config.Test2Clevertap__Status__c;
         }
     }
     
@@ -70,7 +70,7 @@ public with sharing class SyncConfigurationManager {
             List<CleverTap_Sync_Configuration__c> configs = [
                 SELECT Id, Name, Sync_Type__c, 
                        Salesforce_Entity__c, CleverTap_Entity__c, 
-                       Status__c, ConnectionId__c
+                       Test2Clevertap__Status__c, ConnectionId__c
                 FROM CleverTap_Sync_Configuration__c
                 WHERE ConnectionId__c = :connectionId
                 ORDER BY CreatedDate DESC
@@ -112,7 +112,7 @@ public with sharing class SyncConfigurationManager {
             CleverTap_Sync_Configuration__c config = [
                 SELECT Id, Name, Sync_Type__c, 
                        Salesforce_Entity__c, CleverTap_Entity__c, 
-                       Status__c
+                       Test2Clevertap__Status__c
                 FROM CleverTap_Sync_Configuration__c
                 WHERE Id = :syncId
                 LIMIT 1
@@ -145,7 +145,7 @@ public with sharing class SyncConfigurationManager {
                 Salesforce_Entity__c = (String) syncMap.get('sourceEntity'),
                 CleverTap_Entity__c = (String) syncMap.get('targetEntity'),
                 ConnectionId__c = (String) syncMap.get('connectionId'),
-                Status__c = 'Active'
+                Test2Clevertap__Status__c = 'Active'
             );
             
             insert syncConfig;
@@ -206,9 +206,9 @@ public with sharing class SyncConfigurationManager {
             }
             
             CleverTap_Sync_Configuration__c config = [
-                SELECT Id, Status__c FROM CleverTap_Sync_Configuration__c WHERE Id = :syncId LIMIT 1
+                SELECT Id, Test2Clevertap__Status__c FROM CleverTap_Sync_Configuration__c WHERE Id = :syncId LIMIT 1
             ];
-            config.Status__c = status;
+            config.Test2Clevertap__Status__c = status;
             update config;
         } catch (Exception e) {
             throw new AuraHandledException('Error updating sync status: ' + e.getMessage());

@@ -19,7 +19,7 @@ public with sharing class EventLogController {
         }
         
         // Start building the query
-        String query = 'SELECT Id, Name, Status__c, Response__c, CreatedDate, Lead__c, Lead__r.Name, Contact__c, Contact__r.Name';
+        String query = 'SELECT Id, Name, Test2Clevertap__Status__c, Test2Clevertap__Response__c, CreatedDate, Test2Clevertap__Lead__c, Lead__r.Name, Test2Clevertap__Contact__c, Contact__r.Name';
         query += ' FROM CleverTap_Event__c';
         
         // Add WHERE clauses
@@ -27,7 +27,7 @@ public with sharing class EventLogController {
         
         // Filter by status if provided
         if (String.isNotBlank(status)) {
-            whereConditions.add('Status__c = :status');
+            whereConditions.add('Test2Clevertap__Status__c = :status');
         }
         
         // Filter by date if days is provided
@@ -63,8 +63,8 @@ public with sharing class EventLogController {
         
         // Query the record
         List<CleverTap_Event__c> events = [
-            SELECT Id, Name, Status__c, Response__c, CreatedDate, 
-                   Lead__c, Lead__r.Name, Contact__c, Contact__r.Name
+            SELECT Id, Name, Test2Clevertap__Status__c, Test2Clevertap__Response__c, CreatedDate, 
+                   Test2Clevertap__Lead__c, Lead__r.Name, Test2Clevertap__Contact__c, Contact__r.Name
             FROM CleverTap_Event__c
             WHERE Id = :recordId
             LIMIT 1

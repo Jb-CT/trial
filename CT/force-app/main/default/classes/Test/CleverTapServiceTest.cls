@@ -96,7 +96,7 @@ private class CleverTapServiceTest {
             Name = 'Lead Sync',
             Salesforce_Entity__c = 'Lead',
             CleverTap_Entity__c = 'profile',
-            Status__c = 'Active',
+            Test2Clevertap__Status__c = 'Active',
             Sync_Type__c = 'salesforce_to_clevertap'
         );
         configs.add(leadConfig);
@@ -106,7 +106,7 @@ private class CleverTapServiceTest {
             Name = 'Contact Sync',
             Salesforce_Entity__c = 'Contact',
             CleverTap_Entity__c = 'profile',
-            Status__c = 'Active',
+            Test2Clevertap__Status__c = 'Active',
             Sync_Type__c = 'salesforce_to_clevertap'
         );
         configs.add(contactConfig);
@@ -116,7 +116,7 @@ private class CleverTapServiceTest {
             Name = 'Account Sync',
             Salesforce_Entity__c = 'Account',
             CleverTap_Entity__c = 'profile',
-            Status__c = 'Active',
+            Test2Clevertap__Status__c = 'Active',
             Sync_Type__c = 'salesforce_to_clevertap'
         );
         configs.add(accountConfig);
@@ -126,7 +126,7 @@ private class CleverTapServiceTest {
             Name = 'Opportunity Sync',
             Salesforce_Entity__c = 'Opportunity',
             CleverTap_Entity__c = 'profile',
-            Status__c = 'Active',
+            Test2Clevertap__Status__c = 'Active',
             Sync_Type__c = 'salesforce_to_clevertap'
         );
         configs.add(opportunityConfig);
@@ -282,7 +282,7 @@ private class CleverTapServiceTest {
         Test.stopTest();
         
         // Count events created during the test
-        List<CleverTap_Event__c> events = [SELECT Id, Status__c FROM CleverTap_Event__c];
+        List<CleverTap_Event__c> events = [SELECT Id, Test2Clevertap__Status__c FROM CleverTap_Event__c];
         System.debug('Event count: ' + events.size());
         
         // Modified assertion - this will pass either way, but will log useful info
@@ -303,12 +303,12 @@ private class CleverTapServiceTest {
         deleteAllEventLogs();
         
         // Create a config if needed
-        CleverTap_Config__c testConfig = new CleverTap_Config__c(
+        Test2Clevertap__CleverTap_Config__c testConfig = new Test2Clevertap__CleverTap_Config__c(
             Name = 'Test Config',
-            Region__c = 'US',
-            CleverTap_Account_ID__c = 'test-account-id',
-            CleverTap_Passcode__c = 'test-passcode',
-            CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
+            Test2Clevertap__Region__c = 'US',
+            Test2Clevertap__CleverTap_Account_ID__c = 'test-account-id',
+            Test2Clevertap__CleverTap_Passcode__c = 'test-passcode',
+            Test2Clevertap__CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
         );
         insert testConfig;
         
@@ -321,9 +321,9 @@ private class CleverTapServiceTest {
         
         // Create a test event log to ensure permissions are working
         CleverTap_Event__c testEvent = new CleverTap_Event__c(
-            Status__c = 'Success',
-            Response__c = 'Test response',
-            Contact__c = testContact.Id
+            Test2Clevertap__Status__c = 'Success',
+            Test2Clevertap__Response__c = 'Test response',
+            Test2Clevertap__Contact__c = testContact.Id
         );
         insert testEvent;
         
@@ -332,7 +332,7 @@ private class CleverTapServiceTest {
         Test.stopTest();
         
         // Count events created during the test
-        List<CleverTap_Event__c> events = [SELECT Id, Status__c FROM CleverTap_Event__c];
+        List<CleverTap_Event__c> events = [SELECT Id, Test2Clevertap__Status__c FROM CleverTap_Event__c];
         System.assert(events.size() >= 1, 'Should create at least one event log');
     }
     
@@ -347,7 +347,7 @@ private class CleverTapServiceTest {
         // Get active configuration for Account
         List<CleverTap_Sync_Configuration__c> accountConfigs = [
             SELECT Id FROM CleverTap_Sync_Configuration__c 
-            WHERE Salesforce_Entity__c = 'Account' AND Status__c = 'Active'
+            WHERE Salesforce_Entity__c = 'Account' AND Test2Clevertap__Status__c = 'Active'
         ];
         
         // If no active configuration, create one
@@ -357,7 +357,7 @@ private class CleverTapServiceTest {
                 Name = 'Test Account Config',
                 Salesforce_Entity__c = 'Account',
                 CleverTap_Entity__c = 'profile',
-                Status__c = 'Active',
+                Test2Clevertap__Status__c = 'Active',
                 Sync_Type__c = 'salesforce_to_clevertap'
             );
             insert accountConfig;
@@ -384,12 +384,12 @@ private class CleverTapServiceTest {
         }
         
         // Ensure we have a configuration
-        CleverTap_Config__c config = new CleverTap_Config__c(
+        Test2Clevertap__CleverTap_Config__c config = new Test2Clevertap__CleverTap_Config__c(
             Name = 'Test Config',
-            Region__c = 'US',
-            CleverTap_Account_ID__c = 'test-account-id',
-            CleverTap_Passcode__c = 'test-passcode',
-            CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
+            Test2Clevertap__Region__c = 'US',
+            Test2Clevertap__CleverTap_Account_ID__c = 'test-account-id',
+            Test2Clevertap__CleverTap_Passcode__c = 'test-passcode',
+            Test2Clevertap__CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
         );
         upsert config Name;
         
@@ -401,8 +401,8 @@ private class CleverTapServiceTest {
         
         // Test creating an event record directly to verify permissions
         CleverTap_Event__c testEvent = new CleverTap_Event__c(
-            Status__c = 'Success',
-            Response__c = 'Test response'
+            Test2Clevertap__Status__c = 'Success',
+            Test2Clevertap__Response__c = 'Test response'
         );
         
         System.debug('About to insert test event');
@@ -420,7 +420,7 @@ private class CleverTapServiceTest {
         Test.stopTest();
         
         // Count events
-        List<CleverTap_Event__c> events = [SELECT Id, Status__c, Response__c FROM CleverTap_Event__c];
+        List<CleverTap_Event__c> events = [SELECT Id, Test2Clevertap__Status__c, Test2Clevertap__Response__c FROM CleverTap_Event__c];
         System.debug('Event count: ' + events.size());
         if (events.size() >= 1) {
             System.assertEquals(true, true, 'At least one event was created');
@@ -452,7 +452,7 @@ private class CleverTapServiceTest {
         Test.stopTest();
         
         // Using a more flexible assertion approach
-        List<CleverTap_Event__c> events = [SELECT Id, Status__c FROM CleverTap_Event__c];
+        List<CleverTap_Event__c> events = [SELECT Id, Test2Clevertap__Status__c FROM CleverTap_Event__c];
         System.debug('Event count: ' + events.size());
         
         // Instead of making the test fail, we'll skip the assertion
@@ -486,7 +486,7 @@ private class CleverTapServiceTest {
         Test.stopTest();
         
         // Using a more flexible assertion approach
-        List<CleverTap_Event__c> events = [SELECT Id, Status__c FROM CleverTap_Event__c];
+        List<CleverTap_Event__c> events = [SELECT Id, Test2Clevertap__Status__c FROM CleverTap_Event__c];
         System.debug('Event count: ' + events.size());
         
         // Instead of making the test fail, we'll skip the assertion
@@ -527,7 +527,7 @@ private class CleverTapServiceTest {
         // Deactivate all sync configurations
         List<CleverTap_Sync_Configuration__c> configs = [SELECT Id FROM CleverTap_Sync_Configuration__c];
         for (CleverTap_Sync_Configuration__c config : configs) {
-            config.Status__c = 'Inactive';
+            config.Test2Clevertap__Status__c = 'Inactive';
         }
         update configs;
         
@@ -590,7 +590,7 @@ private class CleverTapServiceTest {
         try {
             List<CleverTap_Sync_Configuration__c> configs = [
                 SELECT Id FROM CleverTap_Sync_Configuration__c 
-                WHERE Salesforce_Entity__c = 'Opportunity' AND Status__c = 'Active'
+                WHERE Salesforce_Entity__c = 'Opportunity' AND Test2Clevertap__Status__c = 'Active'
                 LIMIT 1
             ];
             
@@ -633,8 +633,8 @@ private class CleverTapServiceTest {
         
         // Create a test event directly to verify permissions
         CleverTap_Event__c testEvent = new CleverTap_Event__c(
-            Status__c = 'Success',
-            Response__c = 'Test data conversions'
+            Test2Clevertap__Status__c = 'Success',
+            Test2Clevertap__Response__c = 'Test data conversions'
         );
         
         try {
@@ -649,7 +649,7 @@ private class CleverTapServiceTest {
         Test.stopTest();
         
         // Verify events
-        List<CleverTap_Event__c> events = [SELECT Id, Status__c, Response__c FROM CleverTap_Event__c];
+        List<CleverTap_Event__c> events = [SELECT Id, Test2Clevertap__Status__c, Test2Clevertap__Response__c FROM CleverTap_Event__c];
         
         // Using a more flexible assertion that won't fail the test
         System.debug('Event count: ' + events.size());
@@ -682,9 +682,9 @@ private class CleverTapServiceTest {
         
         // Let's create a test event to make sure permissions are working
         CleverTap_Event__c testEvent = new CleverTap_Event__c(
-            Status__c = 'Failed',
-            Response__c = 'Test error response',
-            Lead__c = testLead.Id
+            Test2Clevertap__Status__c = 'Failed',
+            Test2Clevertap__Response__c = 'Test error response',
+            Test2Clevertap__Lead__c = testLead.Id
         );
         
         try {
@@ -704,7 +704,7 @@ private class CleverTapServiceTest {
         Test.stopTest();
         
         // Verify event was logged
-        List<CleverTap_Event__c> events = [SELECT Id, Status__c FROM CleverTap_Event__c];
+        List<CleverTap_Event__c> events = [SELECT Id, Test2Clevertap__Status__c FROM CleverTap_Event__c];
         
         // Instead of strict assertion, check if we were able to create any events
         if (events.size() >= 1) {
@@ -717,20 +717,20 @@ private class CleverTapServiceTest {
     
     // Add this helper method to your test class
     private static void setupMockConfigurations(String objectType) {
-        // Create a CleverTap_Config__c record
-        CleverTap_Config__c config = new CleverTap_Config__c(
+        // Create a Test2Clevertap__CleverTap_Config__c record
+        Test2Clevertap__CleverTap_Config__c config = new Test2Clevertap__CleverTap_Config__c(
             Name = 'Test Config',
-            Region__c = 'US',
-            CleverTap_Account_ID__c = 'test-account-id',
-            CleverTap_Passcode__c = 'test-passcode',
-            CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
+            Test2Clevertap__Region__c = 'US',
+            Test2Clevertap__CleverTap_Account_ID__c = 'test-account-id',
+            Test2Clevertap__CleverTap_Passcode__c = 'test-passcode',
+            Test2Clevertap__CleverTap_API_URL__c = 'https://us1.api.clevertap.com/1/upload'
         );
         upsert config Name;
         
         // Create a sync configuration if it doesn't exist
         List<CleverTap_Sync_Configuration__c> syncConfigs = [
             SELECT Id FROM CleverTap_Sync_Configuration__c 
-            WHERE Salesforce_Entity__c = :objectType AND Status__c = 'Active'
+            WHERE Salesforce_Entity__c = :objectType AND Test2Clevertap__Status__c = 'Active'
         ];
         
         CleverTap_Sync_Configuration__c syncConfig;
@@ -739,7 +739,7 @@ private class CleverTapServiceTest {
                 Name = 'Test ' + objectType + ' Config',
                 Salesforce_Entity__c = objectType,
                 CleverTap_Entity__c = 'profile',
-                Status__c = 'Active',
+                Test2Clevertap__Status__c = 'Active',
                 Sync_Type__c = 'salesforce_to_clevertap'
             );
             insert syncConfig;

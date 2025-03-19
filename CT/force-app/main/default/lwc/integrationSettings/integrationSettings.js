@@ -45,9 +45,9 @@ export default class IntegrationSettings extends NavigationMixin(LightningElemen
                 id: conn.Id,
                 developerName: conn.Name, // Use Name instead of DeveloperName
                 name: conn.Name,
-                region: conn.Region__c,
-                accountId: conn.CleverTap_Account_ID__c,
-                passcode: conn.CleverTap_Passcode__c
+                region: conn.Test2Clevertap__Region__c,
+                accountId: conn.Test2Clevertap__CleverTap_Account_ID__c,
+                passcode: conn.Test2Clevertap__CleverTap_Passcode__c
             }));
         } else if (error) {
             console.error('Error fetching configurations:', error);

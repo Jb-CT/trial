@@ -21,7 +21,7 @@ export default class EventLogViewer extends NavigationMixin(LightningElement) {
         },
         {
             label: 'Status',
-            fieldName: 'Status__c',
+            fieldName: 'Test2Clevertap__Status__c',
             type: 'text',
             sortable: true,
             cellAttributes: {
@@ -70,36 +70,36 @@ export default class EventLogViewer extends NavigationMixin(LightningElement) {
     
     // Computed property for formatted response
     get formattedResponse() {
-        if (this.selectedEvent && this.selectedEvent.Response__c) {
+        if (this.selectedEvent && this.selectedEvent.Test2Clevertap__Response__c) {
             try {
                 // Try to parse and format as JSON
-                const responseObj = JSON.parse(this.selectedEvent.Response__c);
+                const responseObj = JSON.parse(this.selectedEvent.Test2Clevertap__Response__c);
                 return JSON.stringify(responseObj, null, 2);
             } catch (e) {
                 // If not valid JSON, return as is
-                return this.selectedEvent.Response__c;
+                return this.selectedEvent.Test2Clevertap__Response__c;
             }
         }
         return '';
     }
     
     get selectedEventStatusClass() {
-        if (this.selectedEvent && this.selectedEvent.Status__c) {
-            return this.selectedEvent.Status__c === 'Success' ? 'slds-theme_success' : 'slds-theme_error';
+        if (this.selectedEvent && this.selectedEvent.Test2Clevertap__Status__c) {
+            return this.selectedEvent.Test2Clevertap__Status__c === 'Success' ? 'slds-theme_success' : 'slds-theme_error';
         }
         return '';
     }
     
     get leadRecordUrl() {
-        if (this.selectedEvent && this.selectedEvent.Lead__c) {
-            return `/lightning/r/Lead/${this.selectedEvent.Lead__c}/view`;
+        if (this.selectedEvent && this.selectedEvent.Test2Clevertap__Lead__c) {
+            return `/lightning/r/Lead/${this.selectedEvent.Test2Clevertap__Lead__c}/view`;
         }
         return '';
     }
     
     get contactRecordUrl() {
-        if (this.selectedEvent && this.selectedEvent.Contact__c) {
-            return `/lightning/r/Contact/${this.selectedEvent.Contact__c}/view`;
+        if (this.selectedEvent && this.selectedEvent.Test2Clevertap__Contact__c) {
+            return `/lightning/r/Contact/${this.selectedEvent.Test2Clevertap__Contact__c}/view`;
         }
         return '';
     }
@@ -161,16 +161,16 @@ export default class EventLogViewer extends NavigationMixin(LightningElement) {
             let recordType = '';
             let recordName = '';
             
-            if (log.Lead__c) {
+            if (log.Test2Clevertap__Lead__c) {
                 recordType = 'Lead';
                 recordName = log.Lead__r.Name;
-            } else if (log.Contact__c) {
+            } else if (log.Test2Clevertap__Contact__c) {
                 recordType = 'Contact';
                 recordName = log.Contact__r.Name;
             }
             
             // Determine status class
-            const statusClass = log.Status__c === 'Success' ? 'slds-text-color_success' : 'slds-text-color_error';
+            const statusClass = log.Test2Clevertap__Status__c === 'Success' ? 'slds-text-color_success' : 'slds-text-color_error';
             
             return {
                 ...log,

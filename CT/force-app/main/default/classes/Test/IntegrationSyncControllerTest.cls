@@ -20,7 +20,7 @@ private class IntegrationSyncControllerTest {
             Salesforce_Entity__c = 'Lead',
             CleverTap_Entity__c = 'profile',
             ConnectionId__c = testConnectionId,
-            Status__c = 'Active'
+            Test2Clevertap__Status__c = 'Active'
         );
         insert config;
         
@@ -280,11 +280,11 @@ private class IntegrationSyncControllerTest {
     static void testUpdateSyncStatus() {
         // Get existing configuration
         CleverTap_Sync_Configuration__c config = [
-            SELECT Id, Status__c FROM CleverTap_Sync_Configuration__c LIMIT 1
+            SELECT Id, Test2Clevertap__Status__c FROM CleverTap_Sync_Configuration__c LIMIT 1
         ];
         
         // Verify initial status
-        System.assertEquals('Active', config.Status__c, 'Initial status should be Active');
+        System.assertEquals('Active', config.Test2Clevertap__Status__c, 'Initial status should be Active');
         
         // Execute the method to deactivate
         Test.startTest();
@@ -292,8 +292,8 @@ private class IntegrationSyncControllerTest {
         Test.stopTest();
         
         // Verify status change
-        config = [SELECT Status__c FROM CleverTap_Sync_Configuration__c WHERE Id = :config.Id];
-        System.assertEquals('Inactive', config.Status__c, 'Status should be updated to Inactive');
+        config = [SELECT Test2Clevertap__Status__c FROM CleverTap_Sync_Configuration__c WHERE Id = :config.Id];
+        System.assertEquals('Inactive', config.Test2Clevertap__Status__c, 'Status should be updated to Inactive');
     }
     
     /**
@@ -321,7 +321,7 @@ private class IntegrationSyncControllerTest {
         
         // Query the new configuration
         CleverTap_Sync_Configuration__c newConfig = [
-            SELECT Name, Salesforce_Entity__c, CleverTap_Entity__c, Status__c, ConnectionId__c
+            SELECT Name, Salesforce_Entity__c, CleverTap_Entity__c, Test2Clevertap__Status__c, ConnectionId__c
             FROM CleverTap_Sync_Configuration__c
             WHERE Id = :newConfigId
         ];
@@ -329,7 +329,7 @@ private class IntegrationSyncControllerTest {
         System.assertEquals('New Test Config', newConfig.Name, 'Name should match');
         System.assertEquals('Contact', newConfig.Salesforce_Entity__c, 'Source entity should match');
         System.assertEquals('profile', newConfig.CleverTap_Entity__c, 'Target entity should match');
-        System.assertEquals('Active', newConfig.Status__c, 'Status should be Active');
+        System.assertEquals('Active', newConfig.Test2Clevertap__Status__c, 'Status should be Active');
         System.assertEquals(connectionId, newConfig.ConnectionId__c, 'Connection ID should match');
     }
     

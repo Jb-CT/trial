@@ -7,16 +7,16 @@ public with sharing class IntegrationConfigController {
     };
     
     @AuraEnabled(cacheable=true)
-    public static List<CleverTap_Config__c> getConfigurations() {
+    public static List<Test2Clevertap__CleverTap_Config__c> getConfigurations() {
         try {
-            if (!Schema.SObjectType.CleverTap_Config__c.isAccessible()) {
+            if (!Schema.SObjectType.Test2Clevertap__CleverTap_Config__c.isAccessible()) {
                 throw new AuraHandledException('You do not have access to integration configurations');
             }
 
-            List<CleverTap_Config__c> configs = [
-                SELECT Id, Name, CleverTap_Account_ID__c, 
-                       CleverTap_Passcode__c, Region__c, CleverTap_API_URL__c
-                FROM CleverTap_Config__c
+            List<Test2Clevertap__CleverTap_Config__c> configs = [
+                SELECT Id, Name, Test2Clevertap__CleverTap_Account_ID__c, 
+                Test2Clevertap__CleverTap_Passcode__c, Test2Clevertap__Region__c, Test2Clevertap__CleverTap_API_URL__c
+                FROM Test2Clevertap__CleverTap_Config__c
                 WHERE Name != '[Deleted]%'
                 ORDER BY Name
             ];
@@ -33,23 +33,23 @@ public with sharing class IntegrationConfigController {
             // Validation
             validateConfigData(config);
 
-            CleverTap_Config__c newConfig;
+            Test2Clevertap__CleverTap_Config__c newConfig;
             
             // Check if this is an update (has ID) or a new record
             if (config.containsKey('id') && String.isNotBlank((String)config.get('id'))) {
                 // Update existing record
-                newConfig = [SELECT Id FROM CleverTap_Config__c WHERE Id = :(String)config.get('id') LIMIT 1];
+                newConfig = [SELECT Id FROM Test2Clevertap__CleverTap_Config__c WHERE Id = :(String)config.get('id') LIMIT 1];
             } else {
                 // Create new record
-                newConfig = new CleverTap_Config__c();
+                newConfig = new Test2Clevertap__CleverTap_Config__c();
             }
             
             // Set the fields
             newConfig.Name = (String)config.get('name');
-            newConfig.Region__c = (String)config.get('region');
-            newConfig.CleverTap_Account_ID__c = (String)config.get('accountId');
-            newConfig.CleverTap_Passcode__c = (String)config.get('passcode');
-            newConfig.CleverTap_API_URL__c = regionToUrl.get(((String)config.get('region')).toUpperCase());
+            newConfig.Test2Clevertap__Region__c = (String)config.get('region');
+            newConfig.Test2Clevertap__CleverTap_Account_ID__c = (String)config.get('accountId');
+            newConfig.Test2Clevertap__CleverTap_Passcode__c = (String)config.get('passcode');
+            newConfig.Test2Clevertap__CleverTap_API_URL__c = regionToUrl.get(((String)config.get('region')).toUpperCase());
             
             // Save the record
             upsert newConfig;
@@ -68,7 +68,7 @@ public with sharing class IntegrationConfigController {
             }
             
             // Find the record
-            CleverTap_Config__c config = [SELECT Id FROM CleverTap_Config__c WHERE Id = :configId LIMIT 1];
+            Test2Clevertap__CleverTap_Config__c config = [SELECT Id FROM Test2Clevertap__CleverTap_Config__c WHERE Id = :configId LIMIT 1];
             
             if (config == null) {
                 throw new AuraHandledException('Configuration not found');
